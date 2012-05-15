@@ -16,6 +16,8 @@ object Application extends Controller {
     
     for(i <- 1 to 10) roundRobin ! Act
 
+    Thread.sleep(1000)
+
     Ok(views.html.index("Your new application is ready."))
   }
   
