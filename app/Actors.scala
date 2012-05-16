@@ -12,13 +12,21 @@ class ActingActor extends Actor {
 
   def receive = {
     case Act =>
-	Thread.sleep(10000)
 	println("I'm an acting actor")
         getClass.getClassLoader.loadClass("akka.actor.PoisonPill")
         val binding = new Binding();
         binding.setVariable("foo", 2);
         val shell = new GroovyShell(binding);
-        val value = shell.evaluate("println 'Hello World!'; x = 123; return foo * 10");
+        val value = shell.evaluate("""
+String.metaClass.swapCase = {->
+      def sb = new StringBuffer()
+      delegate.each {
+           sb << (Character.isUpperCase(it as char) ? Character.toLowerCase(it as char) : 
+                   Character.toUpperCase(it as char))
+      }
+      sb.toString()
+}
+""");
   }
 }
 

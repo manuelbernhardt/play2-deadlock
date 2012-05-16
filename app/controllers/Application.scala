@@ -10,15 +10,15 @@ import akka.actor._
 
 object Application extends Controller {
 
-  val roundRobin = Akka.system.actorOf(Props[ActingActor].withRouter(RoundRobinRouter(10)))  
+  val roundRobin = Akka.system.actorOf(Props[ActingActor].withRouter(RoundRobinRouter(1)))  
  
   def index = Action {
     
-    for(i <- 1 to 10) roundRobin ! Act
-
-    Thread.sleep(1000)
+    for(i <- 1 to 100) roundRobin ! Act
 
     Ok(views.html.index("Your new application is ready."))
   }
+
+  def test = Action { for(i <- 1 to 10) roundRobin ! Act; Ok }
   
 }
