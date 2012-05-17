@@ -16,7 +16,7 @@ class ActingActor extends Actor {
         getClass.getClassLoader.loadClass("akka.actor.PoisonPill")
         val binding = new Binding();
         binding.setVariable("foo", 2);
-        val shell = new GroovyShell(binding);
+        val shell = new GroovyShell(Play.application.classloader, binding);
         val value = shell.evaluate("""
 String.metaClass.swapCase = {->
       def sb = new StringBuffer()
